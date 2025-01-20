@@ -14,7 +14,7 @@ import BleManager, {BleState, Peripheral} from 'react-native-ble-manager';
 const BleManagerModule = NativeModules.BleManager;
 const bleManagerEmitter = new NativeEventEmitter(BleManagerModule);
 
-const SECONDS_TO_SCAN = 6;
+const SECONDS_TO_SCAN = 10;
 const SERVICE_UUIDS = [];
 const ALLOW_DUPLICATE = false;
 
@@ -23,6 +23,7 @@ const useBle = () => {
   const serviceReadinIdentifier = '';
   const charNotificationIdentifier = '';
   const connectedDeviceId = React.useRef('');
+  const [allDevices, setAllDevices] = React.useState<any[]>([]);
 
   const requestPermissions = async (callback: PermissionCallback) => {
     const apiLevel = await DeviceInfo.getApiLevel();
@@ -198,6 +199,7 @@ const useBle = () => {
         console.info('Bluetooth is enabled');
         const nearbyDevices = await scanNearbyDevices();
         console.log('nearbyDevices: ', nearbyDevices);
+        setAllDevices(Array.from(nearbyDevices.values()));
       });
       //go ahead to scan nearby devices
     } catch (e) {
@@ -228,6 +230,7 @@ const useBle = () => {
     requestPermissions,
     scanForDevices,
     connectToDevice,
+    allDevices,
   };
 };
 
