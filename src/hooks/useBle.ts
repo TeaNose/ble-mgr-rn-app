@@ -20,8 +20,8 @@ const ALLOW_DUPLICATE = false;
 
 const useBle = () => {
   const MAX_CONNECT_WAITING_PERIOD = 30000;
-  const serviceReadinIdentifier = '';
-  const charNotificationIdentifier = '';
+  const serviceReadinIdentifier = 'b7ef1193-dc2e-4362-93d3-df429eb3ad10';
+  const charNotificationIdentifier = '0ce7a72-ec08-473d-943e-81ec27fdc5f2';
   const connectedDeviceId = React.useRef('');
   const [allDevices, setAllDevices] = React.useState<any[]>([]);
 
