@@ -8,3 +8,7 @@
 #   http://developer.android.com/guide/developing/tools/proguard.html
 
 # Add any project specific keep options here:
+# Strip out debug preference XMLs
+-assumenosideeffects class com.facebook.react.devsupport.DevSettings { *; }
+-assumenosideeffects class com.facebook.react.devsupport.DevInternalSettings { *; }
+-assumenosideeffects class com.facebook.react.devsupport.DebugServerHost { *; }

@@ -126,13 +126,31 @@ android {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
             signingConfig signingConfigs.debug
-            minifyEnabled enableProguardInReleaseBuilds
+            packagingOptions {
+                exclude 'res/xml/rn_dev_preferences.xml'
+            }
+            minifyEnabled false
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            debuggable false
         }
     }
 
+    android.applicationVariants.all { variant ->
+    if (variant.buildType.name == "release") {
+        variant.mergeResources.doLast {
+            delete(fileTree(dir: "${buildDir}/intermediates/merged_res/release/xml", include: ["rn_dev_preferences.xml"]))
+        }
+    }
+}
+
     // applicationVariants are e.g. debug, release
     applicationVariants.all { variant ->
+        if (variant.buildType.name == "release") {
+            variant.mergeResources.doFirst {
+                delete(fileTree(dir: "${buildDir}/intermediates/merged_res/release/xml", include: ["rn_dev_preferences.xml"]))
+            }
+        }
+
         variant.outputs.each { output ->
             // For each separate APK per architecture, set a unique version code as described here:
             // https://developer.android.com/studio/build/configure-apk-splits.html
@@ -151,6 +169,7 @@ android {
 dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
+    implementation 'com.scottyab:rootbeer-lib:0.1.0'
 
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.0.0")
 

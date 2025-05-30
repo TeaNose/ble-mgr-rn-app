@@ -20,8 +20,10 @@ const ALLOW_DUPLICATE = false;
 
 const useBle = () => {
   const MAX_CONNECT_WAITING_PERIOD = 30000;
-  const serviceReadinIdentifier = 'b7ef1193-dc2e-4362-93d3-df429eb3ad10';
-  const charNotificationIdentifier = '0ce7a72-ec08-473d-943e-81ec27fdc5f2';
+  const serviceReadinIdentifier =
+    'b7ef1193-dc2e-4362-93d3-df429eb3ad10'.toUpperCase();
+  const charNotificationIdentifier =
+    '00ce7a72-ec08-473d-943e-81ec27fdc5f2'.toUpperCase();
   const connectedDeviceId = React.useRef('');
   const [allDevices, setAllDevices] = React.useState<any[]>([]);
 
@@ -212,6 +214,15 @@ const useBle = () => {
     const isConnected = await connect(deviceId);
     if (isConnected) {
       console.log('Device successfully connected');
+      const listener = bleManagerEmitter.addListener(
+        'BleManagerDidUpdateValueForCharacteristic',
+        ({value, peripheral, characteristic, service}) => {
+          console.log('HEHE');
+          // Convert bytes array to string
+          // const data = bytesToString(value);
+          // console.log(`Received ${data} for characteristic ${characteristic}`);
+        },
+      );
     } else {
       console.error('Failed to connect to the device');
     }

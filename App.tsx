@@ -8,9 +8,11 @@
 import React from 'react';
 
 import HomeScreen from './src/screens/HomeScreen';
+import ImagePickerScreen from './src/screens/ImagePickerScreen';
+import RequestApiScreen from './src/screens/RequestApiScreen';
 
 function App(): JSX.Element {
-  return <HomeScreen />;
+  return <RequestApiScreen />;
 }
 
 export default App;
