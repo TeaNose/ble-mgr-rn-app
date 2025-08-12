@@ -11,6 +11,9 @@ import com.facebook.soloader.SoLoader;
 import java.util.List;
 
 import com.facebook.react.modules.network.OkHttpClientProvider;
+import com.blemanagerapps.RootDetectionPackage;
+
+import android.util.Log;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -29,6 +32,7 @@ public class MainApplication extends Application implements ReactApplication {
           // packages.add(new MyReactNativePackage());
           packages.add(new RootCheckPackage()); //
           packages.add(new FileCheckPackage()); 
+          packages.add(new RootDetectionPackage());
           return packages;
         }
 

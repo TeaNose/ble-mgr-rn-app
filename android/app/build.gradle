@@ -100,6 +100,18 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        externalNativeBuild {
+            cmake {
+                // cppFlags "-std=c99"
+            }
+        }
+
+    }
+
+    externalNativeBuild {
+        cmake {
+            path "src/main/cpp/CMakeLists.txt"
+        }
     }
 
     splits {
@@ -132,16 +144,25 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             debuggable false
+            buildConfigField "boolean", "REACT_NATIVE_DEV_SUPPORT", "false"
+        }
+    }
+
+    sourceSets {
+        release {
+            res {
+                exclude '**/devsupport/**'
+            }
         }
     }
 
     android.applicationVariants.all { variant ->
-    if (variant.buildType.name == "release") {
-        variant.mergeResources.doLast {
-            delete(fileTree(dir: "${buildDir}/intermediates/merged_res/release/xml", include: ["rn_dev_preferences.xml"]))
-        }
+        // if (variant.buildType.name == "release") {
+        //     variant.sourceSets.all { sourceSet ->
+        //             sourceSet.res.exclude("**/devsupport/**")
+        //         }
+        // }
     }
-}
 
     // applicationVariants are e.g. debug, release
     applicationVariants.all { variant ->
@@ -169,7 +190,7 @@ android {
 dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
-    implementation 'com.scottyab:rootbeer-lib:0.1.0'
+    implementation 'com.scottyab:rootbeer-lib:0.1.1'
 
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.0.0")
 
